@@ -1,0 +1,58 @@
+#pragma once
+
+#include <stdexcept>
+#include <sstream>
+#include <vector>
+#include <optional>
+
+template<typename T>
+class Vector {
+public:
+    Vector(std::vector<T> items): items_(items) {}
+    
+    // Добавьте сюда методы.
+    T GetItem(int index) {
+try {
+T value = items_.at(index); 
+        return value;
+} catch (const std::out_of_range& e) {
+            throw std::out_of_range("Index out of range");
+ 
+}
+    }
+T GetItem(const std::string& index_str) {
+    try {
+       std::stringstream ss(index_str);
+    int index;
+
+    if (!(ss >> index)) {
+        throw std::invalid_argument("Invalid index: not a number");
+    }
+
+    char remaining;
+    if (ss >> remaining) {
+        throw std::invalid_argument("Invalid index: not a number");
+    }
+
+    return GetItem(index);
+    } catch (const std:: invalid_argument& e) {
+            throw std::invalid_argument("Invalid index: not a number");
+
+    }
+
+}
+
+
+private:   
+    std::vector<T> items_; 
+};
+
+// Добавьте функцию GetItemFromVector.
+template<typename T, typename I>
+std::optional<T> GetItemFromVector(Vector<T>vec, I index) {
+    try {
+        return vec.GetItem(index);
+    } catch (std::logic_error& e) {
+        return std::nullopt;
+    }
+}
